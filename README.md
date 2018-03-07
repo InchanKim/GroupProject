@@ -3,4 +3,4 @@ ISDS
 
 check check check
 
-groupProject test 222
+groupProject test 2
