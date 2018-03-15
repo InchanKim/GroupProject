@@ -39,3 +39,7 @@ dt1 <- dt %>% select(country, spirit_servings)
   geom_polygon(aes(x = long, y = lat, group = group, fill = spirit_servings), color = "white")
 ```
 
+```{r}
+
+```
+
