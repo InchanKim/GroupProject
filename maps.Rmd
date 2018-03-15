@@ -11,11 +11,11 @@ knitr::opts_chunk$set(echo = TRUE, warning = F, message = F)
 ```
 
 ```{r}
-library(scales)
 library(fivethirtyeight)
-library(maps)
-library(zipcode)
 library(tidyverse)
+library(maps)
+library(scales)
+library(zipcode)
 ```
 
 
