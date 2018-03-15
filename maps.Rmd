@@ -26,3 +26,16 @@ ggplot(data = states) +
   coord_fixed(1.3) +
   guides(fill = F)
 ```
+
+```{r}
+dt <- read_csv('https://raw.githubusercontent.com/fivethirtyeight/data/master/alcohol-consumption/drinks.csv')
+
+world <- map_data("world")
+
+dt1 <- dt %>% select(country, spirit_servings)
+
+  dt1 %>% right_join(world, by = c('country' = 'region')) %>% 
+  ggplot() +
+  geom_polygon(aes(x = long, y = lat, group = group, fill = spirit_servings), color = "white")
+```
+
