@@ -18,7 +18,6 @@ library(scales)
 library(zipcode)
 ```
 
-
 ```{r}
 states <- map_data("state")
 ggplot(data = states) +
@@ -40,6 +39,10 @@ dt1 <- dt %>% select(country, spirit_servings)
 ```
 
 ```{r}
+dt2 <- select(dt, country, beer_servings)
 
+right_join(dt2, world, by = c('country' = 'region')) %>%
+  ggplot() + geom_polygon(aes(x = long, y = lat, group = group, fill = beer_servings), color = "black") +
+  scale_fill_gradient(low = "white", high = "dark red")
 ```
 
