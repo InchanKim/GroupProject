@@ -1,6 +1,5 @@
-# Group2Project
+# Research Question
 
+Is the probability of an alumnus being in a higher income bracket affected by having previous internships and the type of internship that they had?
 
-check check check
-
-groupProject test 2
+https://www.kaggle.com/wsj/college-salaries/data
