@@ -1,0 +1,115 @@
+table_name,column_name,data_type,column_comment,column_key,is_nullable
+alumnus,LSUid,varchar,LSU identification number (hashed),PRI,NO
+alumnus,Sex,varchar,Gender ,,YES
+alumnus,BirthDate,date,Date of birth,,YES
+alumnus,HighSchoolGradDate,year,"The date of graduation of high school for the person	",,YES
+alumnus,ethnicity,varchar,Ethnicity,,YES
+answer,graduationId,int,Unique id for the graduation table,PRI,NO
+answer,perceptionId,int,"Unique identifier of the perception question (i.e. question about the experience at LSU, advisers' support, satisfaction, etc...)",PRI,NO
+answer,value,text,Answer to the perception question,,YES
+assistance,idAssistance,int,Unique identifier of the type of assistanship/scholarship awarded,PRI,NO
+assistance,assistanceName,varchar,Name of the assistantship/scholarship awarded,,YES
+assistance,assistanceType,varchar,"Type of the financial support awarded (e.g. scholarship, assistanship, etc...)",,YES
+college,idCollege,varchar,Unique identifier of the college name,PRI,NO
+college,collegeName,varchar,Full name of the college,,NO
+collegePerception,idCollege,varchar,Unique identifier of the college name - foreign key,PRI,NO
+collegePerception,perceptionId,int,"Id of the perception question (i.e. question about the experience at LSU, advisers' support, satisfaction, etc...) - foreign key",PRI,NO
+commencement,commencementId,int,Unique identifier of the commencement date,PRI,NO
+commencement,commencementName,varchar,Name of the commencement date,,NO
+commencement,commencementDate,date,"Date of the commencement	",,NO
+continuingEducation,idCurrentPosition,int,Unique identifier for the currentPosition table - foreign key,PRI,NO
+continuingEducation,program,varchar,Prospective education program to be started after graduation,,YES
+continuingEducation,degree,varchar,Prospective degree level to be obtained after the program,,YES
+currentPosition,idCurrentPosition,int,Unique identifier for the currentPosition table,PRI,NO
+currentPosition,positionType,varchar,"Actual current situation of an alumnus (e.g. 'Employed full time (on average 30 hours or more per week)', 'Seeking employment' etc...)",,YES
+currentPosition,sector,varchar,Job position's sector,,YES
+currentPosition,locationId,int,Unique identifier for location table - foreign key,MUL,YES
+currentPosition,organizationId,int,Unique identifier for organization table- foreign key,MUL,YES
+currentPosition,commencementId,int,Unique identifier of the commencement date - foreign key,MUL,YES
+currentPosition,dcType,varchar,The type of survey ('At graduation' or 'At 6 months'') - foreign key,MUL,NO
+currentPosition,graduationId,int,"Unique identifier for the graduation table - foreign key	",,NO
+currentPositionSources,idCurrentPosition,int,Unique identifier for the currentPosition table - foreign key,PRI,NO
+currentPositionSources,idEmploymentSources,int,Unique identifier for the employmentsources table - foreign key,PRI,NO
+dataCollection,dcType,varchar,The type of survey ('At graduation' or 'At 6 months''),PRI,NO
+dataCollection,graduationId,int,Unique identifier for the graduation table - foreign key,PRI,NO
+dataCollection,date,varchar,Date of data collection,,YES
+duplicateCities,city,varchar,Name of the city  - UPDATE USE ONLY,PRI,NO
+duplicateCities,stateFull,varchar,Full name of the state (only USA) - UPDATE USE ONLY,PRI,NO
+employment,idCurrentPosition,int,Unique identifier for the currentPosition table - foreign key,PRI,NO
+employment,newEmployment,varchar,Indicates if an alumnus held the position prior to graduating,,YES
+employment,employmentCategory,varchar,"Describes alumnus' employment (e.g. ' Employed in a temporary/contract work assignment', ' Employed freelance' etc...)",,YES
+employment,employerType,varchar,"Describes alumnus' employer (e.g. 'For-profit ', 'Government (including military)' etc...)",,YES
+employment,relatedToMajor,varchar,Indicates if alumnus' position is related to their major,,YES
+employment,characterization,varchar,Indicates alumnus' perception of how is their job in relation to their education level,,YES
+employment,jobTitle,varchar,Job title name,,YES
+employmentSources,idEmploymentSources,int,Unique identifier for the employmentsources table,PRI,NO
+employmentSources,source,varchar,Source of alumnus' job lead,,YES
+fulltime,idCurrentPosition,int,"Unique identifier for the currentPosition table - foreign key	",PRI,NO
+fulltime,salary,decimal,Base annualized salary in U.S. dollars,,YES
+fulltime,otherCompensation,varchar,Guaranteed compensation is U.S. dollars,,YES
+fulltime,relocationPackage,varchar,Relocation package,,YES
+fulltime,signingBonus,varchar,Signing bonus in U.S. dollars,,YES
+fulltime,firstYearBonus,varchar,First year bonus is U.S. dollars,,YES
+graduation,graduationId,int,Unique identifier for the graduation table,PRI,NO
+graduation,degreeLevel,varchar,Alumnus' degree level,,YES
+graduation,graduationExpectedActivity,varchar,"An activity, which is most likely to be alumnus' principal activity upon graduation",,YES
+graduation,commencementId,int,Unique identifier of the commencement date - foreign key,MUL,NO
+graduation,LSUid,varchar,LSU id (hashed) - foreign key,MUL,NO
+graduation,idCollege,varchar,Unique identifier of the college name - foreign key,MUL,YES
+graduation,homeState,varchar,Home state,,YES
+graduation,citizenshipCountry,varchar,"Country of citizenship	",,YES
+graduation,athlete,varchar,Athelete status,,YES
+graduation,veteran,varchar,Veteran status,,YES
+graduation,originalEntryTerm,varchar,"Date (Year and Semester) of entry	",,YES
+graduation,applicationType,varchar,Type of application to LSU,,YES
+graduation,applicationDate,date,"Date of application	",,YES
+graduation,visaStatus,varchar,"Status of Visa	",,YES
+graduation,cumulativeGPA,double,The cumulative GPA at graduation,,YES
+graduation,respondedSurvey,varchar,Completion status of survery ,,YES
+graduationAssistance,graduationId,int,Unique identifier for the graduation table - foreign key,PRI,NO
+graduationAssistance,idAssistance,int,Unique identifier of the type of assistanship/scholarship awarded - foreign key,PRI,NO
+graduationTitle,idTitle,int,"Unique identifier for the graduationTitle table - foreign key	",PRI,NO
+graduationTitle,graduationId,int,"Unique identifier for graduation table - foreign key	",PRI,NO
+graduationTitle,majorNumber,int,"Idetifier of major based on integer value	",PRI,NO
+graduationTitle,department,varchar,Major's department ,,YES
+internship,internshipId,int,Unique identifier for internship table,PRI,NO
+internship,completionDate,varchar,Completion date for internship position,,YES
+internship,jobTitle,varchar,Internship position title ,,YES
+internship,hoursPerWeek,varchar,Weekly hours worked,,YES
+internship,numberWeek,varchar,Duration of the intership (in weeks),,YES
+internship,academicCredit,varchar,Academic credit awarded for the internship,,YES
+internship,internshipPaid,varchar,Intership is payed,,YES
+internship,graduationId,int,Unique identifier for graduation table - foreign key,MUL,NO
+internship,internshipSupervisorId,int,Unique identifier for internshipSupervisor table - foreign key,MUL,YES
+internship,locationId,int,Unique identifier for location table - foreign key,MUL,YES
+internship,organizationId,int,Unique identifier for organization table - foreign key,MUL,YES
+internshipSupervisor,internshipSupervisorId,int,Unique identifier for internshipSupervisor table,PRI,NO
+internshipSupervisor,supervisorName,varchar,Name of the supervisor of the internship,,YES
+internshipSupervisor,supervisorEmail,varchar,Internship supervisor's email address,,YES
+location,locationId,int,Unique identifier for location table,PRI,NO
+location,city,varchar,Name of the city,MUL,YES
+location,state,varchar,Name of the state (only USA) - abbreviation,,YES
+location,country,varchar,Name of the country,,YES
+location,stateFull,varchar,Name of the state (only USA) - full name,,YES
+military,idCurrentPosition,int,Unique identifier for currentPosition table - foreign key,PRI,NO
+military,rank,varchar,Alumnus' military rank,,YES
+military,salary,varchar,Amount of money received,,YES
+organization,organizationId,int,Unique identifier for organization table,PRI,NO
+organization,organizationName,varchar,Name of the organization,,YES
+organization,idparentCompany,int,Unique identifier for parentcompany table - foreign key,MUL,YES
+paidInternship,internshipId,int,"Unique identifier for paid internship table - foreign key	",PRI,NO
+paidInternship,hourlyWage,decimal,Amount of money received hourly during the internship,,YES
+paidInternship,weeklyCompensation,decimal,Amount of money received weekly during the internship,,YES
+parentCompany,idparentCompany,int,Unique identifier for the parentCompany table,PRI,NO
+parentCompany,Name,varchar,Name of the parent company,,YES
+question,perceptionId,int,Unique identifier for question table,PRI,NO
+question,perceptionGroup,varchar,Question grouping number,,YES
+question,surveyQuestion,varchar,Text of the question,,YES
+question,questionNumber,varchar,Question number in the survey,,YES
+question,scale,varchar,Response scale (values),,NO
+question,numberOfOptions,int,Response scale (range),,YES
+title,idTitle,int,Unique identifier for title table,PRI,NO
+title,majorName,text,Name of the major code,,YES
+title,titleCode,varchar,Abbreviated code of the major title,,YES
+volunteering,idCurrentPosition,int,Unique identifier for currentPosition table - foreign key,PRI,NO
+volunteering,role,varchar,Position (responsibility) occupied during volunteering,,YES
