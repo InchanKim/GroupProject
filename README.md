@@ -18,5 +18,6 @@ Do intenships have an impact on the salary, location, and employer of LSU's coll
     - The graduate's Home State (Louisiana or out of state)
     - Internship Location
     - Major
+    
 Conclusion: Analysis Report
     
