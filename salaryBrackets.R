@@ -1,17 +1,6 @@
----
-title: "Brackets"
-author: "Isabella Hundley"
-date: "March 23, 2018"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 source('conn.R')
-```
 
-```{r}
 fullTime <- tbl(conStudent, 'fulltime')
 currentPosition <- tbl(conStudent, 'currentPosition')
 
@@ -23,9 +12,7 @@ avgSalary <- mean(yy$salary, na.rm = T)
 boxStats <- boxplot.stats(yy$salary)
 quantiles <- boxStats$stats
 names(quantiles) <- c("low", "Q1", "Q2", "Q3", "high")
-```
 
-```{r}
 yy <- filter(yy, !is.na(salary))
 yy %>% 
   mutate(salaryBracket = case_when(
@@ -33,5 +20,3 @@ yy %>%
     salary < quantiles['Q1'] ~ "low",
     TRUE ~ "medium"
   )) -> yy
-```
-
