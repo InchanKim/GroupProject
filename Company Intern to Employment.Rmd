@@ -1,0 +1,39 @@
+---
+title: "Same Comapany Internship to Employment"
+author: "Thompson"
+date: "April 4, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+?left_join()
+
+source("conn.R")
+
+internship <- tbl(conStudent, 'internship') 
+organization <- tbl(conStudent, 'organization') 
+currPosition <- tbl(conStudent, 'currentPosition') 
+fulltime <- tbl(conStudent, 'fulltime')
+
+internship %>% 
+  left_join(organization) %>% 
+  group_by(organizationId) %>% 
+  filter(!is.na(organizationId)) %>%    #to drop the NA, use filter with a negate operator
+  
+  
+iternship %>% group_by(organizationId) %>% 
+
+OrgtoInt <- right_join(organization, internship, by = "organizationId") 
+
+CurrtoInt <- left_join(currPosition, internship, by = "graduationId")
+  
+fTime<- left_join(fulltime, CurrtoInt, by = "idCurrentPosition")
+
+
+
+```
+
