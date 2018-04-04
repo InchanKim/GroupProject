@@ -22,6 +22,11 @@ names(quantiles) <- c("low", "Q1", "Q2", "Q3", "high")
 ```
 
 ```{r}
-fullTimeTibble %>% mutate(salaryBracket = )
+fullTimeTibble %>% 
+  mutate(salaryBracket = case_when(
+    salary > quantiles['Q3'] ~ "high",
+    salary < quantiles['Q1'] ~ "low",
+    TRUE ~ "medium"
+  )) -> fullTimeTibble
 ```
 
