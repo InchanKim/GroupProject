@@ -13,20 +13,25 @@ source('conn.R')
 
 ```{r}
 fullTime <- tbl(conStudent, 'fulltime')
-fullTimeTibble <- collect(fullTime)
+currentPosition <- tbl(conStudent, 'currentPosition')
 
-avgSalary <- mean(fullTimeTibble$salary, na.rm = T)
-boxStats <- boxplot.stats(fullTimeTibble$salary)
+xx <- left_join(fullTime, currentPosition, by = 'idCurrentPosition') %>%
+  select(graduationId, idCurrentPosition, salary)
+yy <- collect(xx)
+
+avgSalary <- mean(yy$salary, na.rm = T)
+boxStats <- boxplot.stats(yy$salary)
 quantiles <- boxStats$stats
 names(quantiles) <- c("low", "Q1", "Q2", "Q3", "high")
 ```
 
 ```{r}
-fullTimeTibble %>% 
+yy <- filter(yy, !is.na(salary))
+yy %>% 
   mutate(salaryBracket = case_when(
     salary > quantiles['Q3'] ~ "high",
     salary < quantiles['Q1'] ~ "low",
     TRUE ~ "medium"
-  )) -> fullTimeTibble
+  )) -> yy
 ```
 
