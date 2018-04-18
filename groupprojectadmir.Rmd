@@ -1,40 +1,27 @@
----
-title: "Untitled"
-author: "Admir P Isnaeni"
-date: "April 4, 2018"
-output: html_document
-editor_options: 
-  chunk_output_type: console
----
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 source('conn.R')
-```
 
-dfgdxx
 
-```{r}
-tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid) %>% 
+
+
+
+paid<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid) %>% 
   filter(internshipPaid == 'Yes')
-```
 
-```{r}
-tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid) %>% 
+
+
+
+unpaid <- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid) %>% 
   filter(internshipPaid == 'No')
-```
 
-```{r}
-tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid)%>% count(internshipPaid) %>% 
+total<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid)%>% count(internshipPaid) %>% 
   filter(!is.na(internshipPaid))
-```
 
-```{r}
-tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid)%>% count(internshipPaid) %>% 
+paidcol<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid)%>% count(internshipPaid) %>% 
   filter(!is.na(internshipPaid)) %>% collect() %>% 
   ggplot()+
   geom_col(aes(internshipPaid, n))
-```
+
 
 
