@@ -1,28 +1,17 @@
----
-title: "Interns"
-author: "Inchan Kim"
-date: "4/9/2018"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-conStudent <- src_mysql(host = "ba-isdsclass-programdev.lsu.edu",
-                        port = 3306,
-                        user = 'student',
-                        password = 'student',
-                        dbname = "isds_3105")
-```
+source("conn.R")
 
 
-```{r}
+
+
+
 internship <- tbl(conStudent, 'internship')
 graduation <- tbl(conStudent, 'graduation')
 
-right_join(internship, graduation, by = c('graduationId', 'graduationId')) %>% select(graduationId, internshipId) %>% mutate(interns = !is.na(internshipId)) %>% count(graduationId, interns) %>% mutate(interns = interns*n) %>% select(graduationId, interns)
+right_join(internship, graduation, by = c('graduationId', 'graduationId')) %>%
+  select(graduationId, internshipId) %>% mutate(interns = !is.na(internshipId)) %>%
+  count(graduationId, interns) %>% mutate(interns = interns*n) %>% select(graduationId, interns) -> x
 
-
-
-```
+right_join(internship, graduation, by = c('graduationId', 'graduationId')) %>%
+  select(graduationId, internshipId) %>% mutate(interns = !is.na(internshipId)) %>% count(interns)
 
