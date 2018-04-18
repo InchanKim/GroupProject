@@ -13,7 +13,7 @@ library(tidyverse)
 source('conn.R')
 ```
 
-xx
+dfgdxx
 
 ```{r}
 tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid) %>% 
