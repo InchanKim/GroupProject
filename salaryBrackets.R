@@ -20,3 +20,5 @@ yy %>%
     salary < quantiles['Q1'] ~ "low",
     TRUE ~ "medium"
   )) -> yy
+
+kaggle <- read.csv("degrees-that-pay-back.csv")
