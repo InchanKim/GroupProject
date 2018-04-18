@@ -17,12 +17,12 @@ dfgdxx
 
 ```{r}
 tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid) %>% 
-  filter(internshipPaid == 'Yes') %>% count(internshipPaid)
+  filter(internshipPaid == 'Yes')
 ```
 
 ```{r}
 tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid) %>% 
-  filter(internshipPaid == 'No') %>% count(internshipPaid)
+  filter(internshipPaid == 'No')
 ```
 
 ```{r}
