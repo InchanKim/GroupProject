@@ -1,0 +1,42 @@
+---
+title: "Untitled"
+author: "Admir P Isnaeni"
+date: "April 4, 2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+source('conn.R')
+```
+
+```{r}
+
+
+collect(inter) -> ii
+  
+internPaid <- tbl(conStudent, 'internship') %>% select(graduationId,jobTitle,internshipPaid) %>% 
+  filter(intershipPaid != 'No')
+
+internNotPaid <- tbl(conStudent, 'internship') %>% select(graduationId,jobTitle,internshipPaid) %>% 
+  filter(intershipPaid == "No")
+```
+
+```{r}
+tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid) %>% 
+  filter(internshipPaid == 'Yes') %>% count(internshipPaid)
+```
+
+```{r}
+tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid) %>% 
+  filter(internshipPaid == 'No') %>% count(internshipPaid)
+```
+
+```{r}
+tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid)%>% count(internshipPaid) %>% 
+  filter(!is.na(internshipPaid))
+```
+
