@@ -3,7 +3,7 @@ library(tidyverse)
 source('conn.R')
 
 
-
+#paid unpaid intership
 
 
 paid<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid) %>% 
@@ -22,6 +22,3 @@ paidcol<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation
   filter(!is.na(internshipPaid)) %>% collect() %>% 
   ggplot()+
   geom_col(aes(internshipPaid, n))
-
-
-
