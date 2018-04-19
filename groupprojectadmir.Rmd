@@ -1,27 +1,51 @@
+---
+title: "Untitled"
+author: "Admir P Isnaeni"
+date: "April 4, 2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 source('conn.R')
+```
 
+dfgdxx
 
+```{r}
+paid<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid)
 
+paid
+```
 
-
-paid<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid) %>% 
-  filter(internshipPaid == 'Yes')
-
-
-
-
+```{r}
 unpaid <- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid) %>% 
   filter(internshipPaid == 'No')
+```
 
+```{r}
 total<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid)%>% count(internshipPaid) %>% 
   filter(!is.na(internshipPaid))
+```
 
-paidcol<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid)%>% count(internshipPaid) %>% 
+```{r}
+paidcol <- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid)%>% count(internshipPaid) %>% 
   filter(!is.na(internshipPaid)) %>% collect() %>% 
   ggplot()+
   geom_col(aes(internshipPaid, n))
+```
 
+```{r}
+ paid %>% collect() %>% right_join(yy, by = "graduationId") %>% right_join(xxx,graduationId) %>%  filter(!is.na(internshipPaid)) %>% 
+  ggplot() + geom_bar(aes(x = salaryBracket, fill = internshipPaid), position = "dodge")
+```
+
+```{r}
+ paid %>% collect() %>% right_join(yy, by = "graduationId") %>% right_join(xxx,graduationId) %>%  filter(!is.na(internshipPaid)) %>% 
+  ggplot() + geom_bar(aes(x = salaryBracket, fill = internshipPaid), position = "dodge")
+```
 
 
