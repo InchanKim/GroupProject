@@ -6,10 +6,12 @@ source('conn.R')
 #paid unpaid intership
 
 
+
+paid<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid)
+
+
 paid<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid) %>% 
   filter(internshipPaid == 'Yes')
-
-
 
 
 unpaid <- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid) %>% 
@@ -17,4 +19,3 @@ unpaid <- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation
 
 total<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid)%>% count(internshipPaid) %>% 
   filter(!is.na(internshipPaid))
-
