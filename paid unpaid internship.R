@@ -18,7 +18,3 @@ unpaid <- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation
 total<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid)%>% count(internshipPaid) %>% 
   filter(!is.na(internshipPaid))
 
-paidcol<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid)%>% count(internshipPaid) %>% 
-  filter(!is.na(internshipPaid)) %>% collect() %>% 
-  ggplot()+
-  geom_col(aes(internshipPaid, n))
