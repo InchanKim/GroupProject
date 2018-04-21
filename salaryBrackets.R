@@ -1,4 +1,6 @@
 library(tidyverse)
+library(stringr)
+library(tools)
 source('conn.R')
 
 fullTime <- tbl(conStudent, 'fulltime')
@@ -23,17 +25,16 @@ yy %>%
 
 kaggle <- read.csv("degrees-that-pay-back.csv") %>%
   select(Undergraduate.Major, Starting.Median.Salary) %>% 
-  mutate('Undergraduate.Major' = tolower(Undergraduate.Major))
+  mutate('Undergraduate.Major' = tolower(Undergraduate.Major)) %>%
+  mutate('Starting.Median.Salary' = str_remove_all(Starting.Median.Salary, "[$,]")) %>%
+  mutate('Starting.Median.Salary' = as.double(Starting.Median.Salary))
 
 title <- tbl(conStudent, 'title')
 graduationTitle <- tbl(conStudent, 'graduationTitle')
 majors <- left_join(graduationTitle, title, by = "idTitle") %>% 
   mutate("majorName" = tolower(majorName)) %>% 
   select(graduationId, majorName) %>% collect()
-majorSalary <- left_join(yy, majors, by = "graduationId") %>%
-  filter(majorName %in% kaggle$Undergraduate.Major)
 
-notIn <- kaggle %>% filter(!(Undergraduate.Major %in% majors$majorName))
 majorList <- majors %>% count(majorName) %>% arrange(majorName)
 
 majors <- majors %>% mutate('majorName' = case_when(
@@ -48,9 +49,23 @@ majors <- majors %>% mutate('majorName' = case_when(
   majorName == "information systems and decision sciences" ~ "management information systems (mis)",
   majorName %in% grep("mathematic", majorList$majorName, value = T ) ~"math",
   majorName == "nutrition and food sciences" ~ "nutrition",
-  majorName == "kinesiology" ~ "physician assistant",
   majorName == "international studies" ~ "international relations",
   TRUE ~ majorName
 ))
 
-
+notIn <- kaggle %>% filter(!(Undergraduate.Major %in% majors$majorName))
+majorSalary <- left_join(yy, majors, by = "graduationId") %>%
+  filter(majorName %in% kaggle$Undergraduate.Major)
+majorSalary <- majorSalary %>% group_by(majorName) %>% summarise(LSU = median(salary))
+all <- left_join(majorSalary, kaggle, by = c("majorName" = "Undergraduate.Major"))
+all <- gather(all, key = "Source", value = "salary", -majorName) %>%
+  mutate('majorName' = toTitleCase(majorName), 'Source' = case_when(
+    Source == 'Starting.Median.Salary' ~ 'USA',
+    TRUE ~ Source
+  ))
+salaryPlot <- ggplot(all) + 
+  geom_col(aes(x = majorName, y = salary, fill = Source), position = "dodge") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_x_discrete(name = "Majors") + scale_y_continuous(name = "Median Salary") +
+  ggtitle(label = 'Median Starting Salaries by Major') +
+  labs(caption = "Source: WSJ")
