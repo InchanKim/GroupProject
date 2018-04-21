@@ -3,12 +3,14 @@ library(stringr)
 library(tools)
 source('conn.R')
 
-fullTime <- tbl(conStudent, 'fulltime')
+suppressWarnings(fullTime <- tbl(conStudent, 'fulltime'))
 currentPosition <- tbl(conStudent, 'currentPosition')
+graduation <- tbl(conStudent, 'graduation') %>% select(graduationId, degreeLevel)
 
 xx <- left_join(fullTime, currentPosition, by = 'idCurrentPosition') %>%
   select(graduationId, idCurrentPosition, salary)
-yy <- collect(xx)
+xx <- left_join(xx, graduation, by = 'graduationId') %>% filter(degreeLevel == 'Bachelor')
+suppressWarnings(yy <- collect(xx))
 
 avgSalary <- mean(yy$salary, na.rm = T)
 boxStats <- boxplot.stats(yy$salary)
@@ -39,6 +41,7 @@ majorList <- majors %>% count(majorName) %>% arrange(majorName)
 
 majors <- majors %>% mutate('majorName' = case_when(
   majorName == "biological sciences" ~ "biology",
+  majorName %in% grep("edu", majorList$majorName, value = T) ~ "education",
   majorName %in% grep("agricult", majorList$majorName, value = T) ~ "agriculture",
   majorName == "management" ~"business management",
   majorName == "theatre" ~ "drama",
@@ -47,7 +50,7 @@ majors <- majors %>% mutate('majorName' = case_when(
   majorName == "construction management" ~ "construction",
   majorName == "forestry - forest management" ~ "forestry",
   majorName == "information systems and decision sciences" ~ "management information systems (mis)",
-  majorName %in% grep("mathematic", majorList$majorName, value = T ) ~"math",
+  majorName == "mathematics" ~ "math",
   majorName == "nutrition and food sciences" ~ "nutrition",
   majorName == "international studies" ~ "international relations",
   TRUE ~ majorName
