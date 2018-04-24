@@ -1,0 +1,57 @@
+---
+title: "paid unpaid report"
+author: "Admir P Isnaeni"
+date: "April 23, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(knitr)
+library(DBI)
+library(scales)
+source('conn.R')
+```
+
+```{r}
+paid<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,internshipPaid)
+paid
+
+total<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid)%>% count(internshipPaid) %>% 
+  filter(!is.na(internshipPaid))
+total
+```
+As we know from Peyton's part, we found out that from all of the LSU graduates from 2017, `r count(internship)` had internships while completing their degree.
+
+Out of those number, there are totals of 2240 `r count(paid$internshipPaid) %>% groupby(paid$internshipPaid == 'no')` unpaid internships, and 5440 paid internships taken by students that graduated in 2017. 
+
+In this part of analyzation we will find out about the correlation between paid and unpaid internship on the sallary that the graduated student .
+```{r}
+paidcol <- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid)%>% count(internshipPaid) %>% 
+  filter(!is.na(internshipPaid)) %>% collect() %>% 
+  ggplot()+
+  geom_col(aes(internshipPaid, n))
+paidcol
+```
+#analyzation
+
+```{r}
+kk <- paid %>% collect() %>% right_join(yy, by = "graduationId") %>%  filter(!is.na(internshipPaid)) %>% select(salaryBracket, internshipPaid) %>% count(salaryBracket, internshipPaid)%>% mutate(percentage = n/2600) %>% round(kk$percentage, digits = 3)
+
+```
+From the dataset we found out that: `r sum(kk$n)`     `r sum(kk$percentage)`
+
+-43 `r kk[1,3]` graduates with unpaid internships, and 834 `r kk[2,3]` graduates with paid internships got high starting salaries.
+
+-242 `r kk[5,3]` graduates with unpaid internship, and 1055 `r kk[6,3]` graduates with paid internship got medium starting salaries.
+
+-158 `r kk[3,3]` graduates with unpaid internship, and 268 `r kk[4,3]` graduates with paid internship got low starting salaries.
+
+```{r}
+paidbar <- paid %>% collect() %>% right_join(yy, by = "graduationId") %>%  filter(!is.na(internshipPaid)) %>% 
+  ggplot() + geom_bar(aes(x = salaryBracket, fill = internshipPaid), position = "dodge")
+paidbar
+```
+Based on data and graph above we can coclude that paid internship have highly positive correlation on starting salary with the highest percentage of `r kk[6,4]` for medium starting salary, and second highest of "bla percent" for high starting salary.
+
