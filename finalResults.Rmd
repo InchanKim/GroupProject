@@ -51,20 +51,20 @@ paidcol
 kk <- paid %>% collect() %>% right_join(yy, by = "graduationId") %>%  filter(!is.na(internshipPaid)) %>% select(salaryBracket, internshipPaid) %>% count(salaryBracket, internshipPaid)%>% mutate(percentage = round(n/2600, digits = 3))
 
 ```
-From the dataset we found out that: `r sum(kk$n)`     `r sum(kk$percentage)`
+From the dataset we found out that `r sum(kk$n)` get a job right after graduation. THe distribution based on the salary bracket is :
 
--43 `r kk[1,3]` graduates with unpaid internships, and 834 `r kk[2,3]` graduates with paid internships got high starting salaries.
+-`r kk[1,3]` graduates with unpaid internships, and `r kk[2,3]` graduates with paid internships got high starting salaries.
 
--242 `r kk[5,3]` graduates with unpaid internship, and 1055 `r kk[6,3]` graduates with paid internship got medium starting salaries.
+-`r kk[5,3]` graduates with unpaid internship, and `r kk[6,3]` graduates with paid internship got medium starting salaries.
 
--158 `r kk[3,3]` graduates with unpaid internship, and 268 `r kk[4,3]` graduates with paid internship got low starting salaries.
+-`r kk[3,3]` graduates with unpaid internship, and `r kk[4,3]` graduates with paid internship got low starting salaries.
 
 ```{r}
 paidbar <- paid %>% collect() %>% right_join(yy, by = "graduationId") %>%  filter(!is.na(internshipPaid)) %>% 
   ggplot() + geom_bar(aes(x = salaryBracket, fill = internshipPaid), position = "dodge")
 paidbar
 ```
-Based on data and graph above we can coclude that paid internship have highly positive correlation on starting salary with the highest percentage of `r kk[6,4]` for medium starting salary, and second highest of "bla percent" for high starting salary.  
+Based on data and graph above we can coclude that paid internship have highly positive correlation on starting salary with the highest percentage of `r kk[2,4]` for high starting salary, and second highest of `r kk[6,4]` for medium starting salary.  
 
 ###Employer Loyalty
 
