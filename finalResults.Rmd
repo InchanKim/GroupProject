@@ -35,9 +35,9 @@ total
 ```
 As we have stated previously, of all of the LSU graduates from 2017, `r count(internship)` had internships while completing their degree.  
 
-From this number there is a total of 2240 `r count(paid$internshipPaid) %>% groupby(paid$internshipPaid == 'no')` unpaid internships, and 5440 paid internships taken by students that graduated in 2017.  
+From this number there is a total of 2240 `r count(paid$internshipPaid == 'no')` unpaid internships, and 5440 paid internships taken by students that graduated in 2017.  
 
-In the analysis we will find out about the correlation between paid and unpaid internship on the sallary that the graduated student.  
+In this analysis we will find out about the correlation between paid and unpaid internship on the starting salaries for graduated students in 2017.  
 ```{r}
 paidcol <- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid)%>% count(internshipPaid) %>% 
   filter(!is.na(internshipPaid)) %>% collect() %>% 
@@ -76,5 +76,8 @@ Of the `r nrow(kaggle)` majors listed in the WSJ dataset, only `r nrow(kaggle) -
 
 ```{r}
 salaryPlot
+```
+```{r}
+
 ```
 
