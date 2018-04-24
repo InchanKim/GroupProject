@@ -69,6 +69,6 @@ all <- gather(all, key = "Source", value = "salary", -majorName) %>%
 salaryPlot <- ggplot(all) + 
   geom_col(aes(x = majorName, y = salary, fill = Source), position = "dodge") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  scale_x_discrete(name = "Majors") + scale_y_continuous(name = "Median Salary") +
+  scale_x_discrete(name = "Major") + scale_y_continuous(name = "Median Salary") +
   ggtitle(label = 'Median Starting Salaries by Major') +
   labs(caption = "Source: WSJ")
