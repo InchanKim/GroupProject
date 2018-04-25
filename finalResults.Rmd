@@ -14,7 +14,7 @@ library(DBI)
 library(scales)
 
 source("conn.R")
-source("salaryBrackets.R")
+#source("salaryBrackets.R")
 ```
 
 #Intro
@@ -26,6 +26,24 @@ Our team wanted to know how an LSU graduate's past internships affect their sala
 
 ###Paid or Unpaid Internships
 ```{r}
+
+
+graduat <- tbl(conStudent,'graduation')
+graduat1 <- as_data_frame(graduat)
+
+graduat1
+
+intern <- tbl(conStudent,'internship')
+intern1 <- as_data_frame(intern)
+
+
+oo <- intern1 %>% inner_join(graduat1) %>% count(internshipPaid) %>% 
+  filter(!is.na(internshipPaid))
+
+oo[1,2]
+
+
+
 paid<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,internshipPaid)
 paid
 
@@ -33,12 +51,14 @@ total<- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')
   filter(!is.na(internshipPaid))
 total
 
-tn <- total %>% filter(internshipPaid== "no")
-ty <- total %>% filter(internshipPaid== "yes")
-```
-As we have stated previously, of all of the LSU graduates from 2017, `r count(internship)` had internships while completing their degree.  
+internshipP <- paid %>% collect() 
 
-From this number there is a total of `r tn$n`unpaid internships, and `r ty$n`5440 paid internships taken by students that graduated in 2017.  
+tn <- oo %>% filter(internshipPaid== "no")
+ty <- oo %>% filter(internshipPaid== "yes")
+```
+As we have stated previously, of all of the LSU graduates from 2017, `r count(paid)` had internships while completing their degree.  
+
+From this number there is a total of `r oo[1,2]`unpaid internships, and `r oo[2,2]`5440 paid internships taken by students that graduated in 2017.  
 
 In this analysis we will find out about the correlation between paid and unpaid internship on the starting salaries for graduated students in 2017.  
 ```{r}
