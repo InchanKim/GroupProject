@@ -24,6 +24,7 @@ yy %>%
     salary < quantiles['Q1'] ~ "low",
     TRUE ~ "medium"
   )) -> yy
+yy$salaryBracket <- factor(yy$salaryBracket, levels = c("low", "medium", "high"))
 
 kaggle <- read.csv("degrees-that-pay-back.csv") %>%
   select(Undergraduate.Major, Starting.Median.Salary) %>% 
@@ -69,6 +70,6 @@ all <- gather(all, key = "Source", value = "salary", -majorName) %>%
 salaryPlot <- ggplot(all) + 
   geom_col(aes(x = majorName, y = salary, fill = Source), position = "dodge") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  scale_x_discrete(name = "Major") + scale_y_continuous(name = "Median Salary") +
+  scale_x_discrete(name = "Major") + scale_y_continuous(name = "Median Salary", labels = scales::dollar) +
   ggtitle(label = 'Median Starting Salaries by Major') +
   labs(caption = "Source: WSJ")
