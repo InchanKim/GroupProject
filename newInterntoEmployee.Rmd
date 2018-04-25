@@ -1,3 +1,158 @@
+<<<<<<< HEAD
+---
+title: "internToEmployee"
+author: "Thompson"
+date: "April 20, 2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+conStudent <- src_mysql(host = "ba-isdsclass-programdev.lsu.edu",
+                        port = 3306,
+                        user = 'student',
+                        password = 'student',
+                        dbname = "isds_3105")
+library(DBI)
+library(lubridate)
+library(scales)
+library(knitr)
+library(ggplot2)
+
+source("conn.R")
+
+```
+
+```{r}
+
+graduation <- tbl(conStudent, 'graduation') %>% collect()
+internship <- tbl(conStudent, 'internship') %>% collect()
+organization <- tbl(conStudent, 'organization') %>% collect()
+currPosition <- tbl(conStudent, 'currentPosition') %>% collect()
+fulltime <- tbl(conStudent, 'fulltime') %>% collect() 
+employment <- tbl(conStudent, 'employment') %>% collect()
+
+internGrad <- right_join(internship, graduation, by = c('graduationId', 'graduationId')) %>% select(graduationId, internshipId) %>% mutate(interns = !is.na(internshipId)) %>% count(graduationId, interns) %>% mutate(interns = interns*n) %>% mutate(interns = as.numeric(interns)) %>% select(graduationId, interns) %>% filter(interns != 0, graduationId)
+
+noInternGrad <- right_join(internship, graduation, by = c('graduationId', 'graduationId')) %>% select(graduationId, internshipId, organizationId) %>%  filter(is.na(internshipId)) 
+#double check - 0's?
+
+
+```
+
+#Already Added
+Of all of the LSU graduates from 2017, `'r percent(length(internGrad$interns)/length(graduation$graduationId))` had internships while completing their degree.
+There was a total of `r sum(internGrad$interns)` internships completed from the class of 2017.
+
+#Internship Turnovers
+
+```{r}
+graduationTitle <- tbl(conStudent, 'graduationTitle') %>% collect()
+title <- tbl(conStudent, 'title') %>% collect()
+
+major <- left_join(graduationTitle, title, by = "idTitle") %>% select(graduationId, majorName, titleCode)
+
+internCurrent <- inner_join(internship, currPosition, by = c('graduationId')) %>% mutate(organizationId = as.numeric(organizationId.y)) %>% mutate(intOrganizationId = as.numeric(organizationId.x)) %>% select(internshipId, academicCredit, graduationId, intOrganizationId, organizationId, idCurrentPosition, positionType)
+
+byMajor <- left_join(internCurrent, major, by = 'graduationId')
+
+organizName <- left_join(organization, internCurrent, by = c('organizationId')) %>% select(organizationId, intOrganizationId, organizationName, graduationId, idCurrentPosition)
+
+  
+stayed <- organizName %>% filter(organizationId == intOrganizationId) %>% distinct(graduationId, .keep_all = TRUE)
+
+ftstay <- left_join(stayed, fulltime, by = "idCurrentPosition") %>% select(organizationId:salary) %>% distinct(salary) 
+
+#code with errors....
+length(orgIdStay$organizationId)/length(noInternGrad$graduationId)
+noInt <- length(graduation$graduationId) - length(orgIdStay$organizationId) # the length for noIntern and this difference should equal up - they are about 4000 apart
+
+noIntSalTotal <- sum(fulltime$salary, na.rm = TRUE) - sum(ftOI, na.rm = TRUE) 
+noIntSalTotal/length(noInternGrad$graduationId) #doesn't seem right - need to double check
+
+#nIntFT <- left_join(noInternGrad, employment, by = "organizationId") = was trying to see the employment total of those without internships but without the values to match, idk if it'll work
+
+```
+
+Of those who interned for a company, `r length(orgIdStay$organizationId)` graduates continued to work with that same company upon graduation, which is `r  percent(length(orgIdStay$organizationId)/length(fulltime$idCurrentPosition))` of those hired full time.
+
+As a whole, these graduates who continued to work with their internship company make a starting average salary of about `r dollar(sum(ftOI, na.rm = TRUE)/length(ftOI$salary))`.
+
+The overall full-time average is `r dollar(sum(fulltime$salary, na.rm = TRUE)/length(fulltime$salary))`, so those who had an internship and marked down their salary made `r percent((sum(ftOI, na.rm = TRUE)/length(ftOI$salary))/(sum(fulltime$salary, na.rm = TRUE)/length(fulltime$salary)))` the starting salary than the accumulated full-time average across all graduates.
+
+There were `r length(noInternGrad$graduationId)` students who did not have internships, which is about 13 people without an internship for every 1 with an internship. 
+
+```{r}
+
+
+
+```
+
+
+#Extra 
+
+```{r}
+#trying to get a graph where x = positionType (filtered to certain values), y = count, and fill color in graphs is titleCode for majors
+
+
+
+byMajor %>% filter(positionType == 'Continuing education' & positionType == 'Employed full-time' & positionType == 'Seeking employment') %>% 
+  ggplot() +
+  geom_bar(aes(x = positionType)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  
+  
+
+
+
+```
+
+
+
+
+```{r}
+
+#old but keep until finished my part
+
+xx<- internship %>% 
+  left_join(organization) %>%  #fiter to get graduation id - filter to a variable to say yes or no, 
+  group_by(organizationId) %>% 
+  filter(!is.na(organizationId)) %>% collect() #to drop the NA, use filter with a negate operator
+
+#Ideas to consider
+      # 2. if the student had internship --> diff company? (total/internship total) expected med-high
+      # 3. if the student did not get hired --> no current position (total/internship total) expected low
+
+
+```
+
+
+Left to Do...
+- Make Plots 
+- Write Graph Summaires
+- Compare Data to Isabella's boxplots
+   -- The Data on If they stayed 
+- Final Breakdown of each segment
+- Compare Paid to UnPaid (join dts) - admir/inchan 
+- (if possible) try to break down by major 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=======
 ---
 title: "internToEmployee"
 author: "Thompson"
@@ -151,3 +306,4 @@ Conclusion: Analysis Report
 
 
 
+>>>>>>> 80c3440624d61863d0ced106b23b3a1a358ed35d
