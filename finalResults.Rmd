@@ -81,7 +81,66 @@ Based on data and graph above we can coclude that paid internship have highly po
 To put everything in perspective, we wanted to compare the starting salaries of LSU graduates to that of the average college graduate in the US. To do this, we used a dataset from *The Wall Street Journal* (WSJ) that included the median starting salaries of college graduates by major: http://online.wsj.com/public/resources/documents/info-Degrees_that_Pay_you_Back-sort.html.  
 Of the `r nrow(kaggle)` majors listed in the WSJ dataset, only `r nrow(kaggle) - nrow(notIn)` matched up with the majors of the LSU graduates who went into the workforce after graduation. Some of the major names had to be adjusted to match up properly to the WSJ dataset.  
 
+The changes that were made:
+
+LSU | WSJ
+---------------------------------------- | --------------------------------------
+biological sciences | biology
+management | business management
+theatre | drama
+fine arts - art history | art history
+construction management | construction
+forestry - forest management | forestry
+information systems and decision sciences | management information systems (mis)
+mathematics | math
+nutrition and food sciences | nutrition
+international studies | international relations
+
+Also :
+
+* `r grep("edu", majorList$majorName, value = T)` were changed to **education**
+* agricultural business, agricultural economics were changed to **agriculture**
+* `r grep("mass communication", majorList$majorName, value = T)` were changed to **mass communication**
 
 ```{r}
 salaryPlot
 ```
+
+There are `r length(unique(all$majorName))` majors listed in this graph, so it might be hard to tell which is which. We've broken it down into two graphs instead.
+
+```{r}
+higherPlot
+lowerPlot
+```
+
+As you can see, there are `r length(unique(higher$majorName))` LSU majors that pay equal to or higher than the national median and `r length(unique(lower$majorName))` LSU majors that pay less than the national median.
+
+Some majors have a wider range of salaries than others, so we have included box-and-whisker plots at the end of this report for each major.
+
+#Conclusion
+
+
+#Salary Box-and-Whisker Plots
+
+```{r}
+#source("boxPlotMaker.R")
+```
+
+
+![College of Agriculture](plots/boxAgriculture.png)
+
+![College of Art & Design](plots/boxArtDesign.png)
+
+![College of Business](plots/boxBusiness.png)
+
+![College of Engineering](plots/boxEngineering.png)
+
+![College of Humanities & Social Sciences](plots/boxHumanitiesSocialSciences.png)
+
+![College of Human Sciences & Education](plots/boxHumanSciencesandEducation.png)
+
+![College of Mass Communication](plots/boxMassCommunication.png)
+
+![College of Music & Dramatic Arts](plots/boxMusicDramaticArts.png)
+
+![College of Science](plots/boxScience.png)

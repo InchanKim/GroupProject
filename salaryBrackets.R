@@ -43,7 +43,7 @@ majorList <- majors %>% count(majorName) %>% arrange(majorName)
 majors <- majors %>% mutate('majorName' = case_when(
   majorName == "biological sciences" ~ "biology",
   majorName %in% grep("edu", majorList$majorName, value = T) ~ "education",
-  majorName %in% grep("agricult", majorList$majorName, value = T) ~ "agriculture",
+  majorName %in% c("agricultural business", "agricultural economics") ~ "agriculture",
   majorName == "management" ~"business management",
   majorName == "theatre" ~ "drama",
   majorName == "fine arts - art history" ~ "art history",
@@ -61,8 +61,8 @@ notIn <- kaggle %>% filter(!(Undergraduate.Major %in% majors$majorName))
 majorSalary <- left_join(yy, majors, by = "graduationId") %>%
   filter(majorName %in% kaggle$Undergraduate.Major)
 majorSalary <- majorSalary %>% group_by(majorName) %>% summarise(LSU = median(salary))
-all <- left_join(majorSalary, kaggle, by = c("majorName" = "Undergraduate.Major"))
-all <- gather(all, key = "Source", value = "salary", -majorName) %>%
+allA <- left_join(majorSalary, kaggle, by = c("majorName" = "Undergraduate.Major"))
+all <- gather(allA, key = "Source", value = "salary", -majorName) %>%
   mutate('majorName' = toTitleCase(majorName), 'Source' = case_when(
     Source == 'Starting.Median.Salary' ~ 'USA',
     TRUE ~ Source
@@ -70,6 +70,36 @@ all <- gather(all, key = "Source", value = "salary", -majorName) %>%
 salaryPlot <- ggplot(all) + 
   geom_col(aes(x = majorName, y = salary, fill = Source), position = "dodge") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  scale_x_discrete(name = "Major") + scale_y_continuous(name = "Median Salary", labels = scales::dollar) +
+  scale_x_discrete(name = "Major") + 
+  scale_y_continuous(name = "Median Salary", labels = scales::dollar) +
   ggtitle(label = 'Median Starting Salaries by Major') +
+  labs(caption = "Source: WSJ")
+
+allA %>% filter(LSU >= Starting.Median.Salary) %>%
+  gather(., key = "Source", value = "salary", -majorName) %>%
+  mutate('majorName' = toTitleCase(majorName), 'Source' = case_when(
+    Source == 'Starting.Median.Salary' ~ 'USA',
+    TRUE ~ Source
+  ))-> higher
+allA %>% filter(LSU < Starting.Median.Salary) %>%
+  gather(., key = "Source", value = "salary", -majorName) %>%
+  mutate('majorName' = toTitleCase(majorName), 'Source' = case_when(
+    Source == 'Starting.Median.Salary' ~ 'USA',
+    TRUE ~ Source
+  ))-> lower
+
+higherPlot <- ggplot(higher) + 
+  geom_col(aes(x = majorName, y = salary, fill = Source), position = "dodge") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_x_discrete(name = "Major") + 
+  scale_y_continuous(name = "Median Salary", labels = scales::dollar) +
+  ggtitle(label = 'Median Starting Salaries by Major', subtitle = "Where the LSU Median Salary is Higher") +
+  labs(caption = "Source: WSJ")
+
+lowerPlot <- ggplot(lower) + 
+  geom_col(aes(x = majorName, y = salary, fill = Source), position = "dodge") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_x_discrete(name = "Major") + 
+  scale_y_continuous(name = "Median Salary", labels = scales::dollar) +
+  ggtitle(label = 'Median Starting Salaries by Major', subtitle = "Where the LSU Median Salary is Lower") +
   labs(caption = "Source: WSJ")
