@@ -47,7 +47,7 @@ ty <- oo %>% filter(internshipPaid== "yes")
 ```
 As we have stated previously, of all of the LSU graduates from 2017, `r length(unique(intern1$graduationId))` had internships while completing their degree.  
 
-From this number there is a total of `r oo[1,2]` unpaid internships, and `r oo[2,2]` 5440 paid internships taken by students that graduated in 2017.  
+From this number there is a total of `r oo[1,2]` unpaid internships, and `r oo[2,2]` paid internships taken by students that graduated in 2017.  
 
 In this analysis we will find out about the correlation between paid and unpaid internship on the starting salaries for graduated students in 2017.  
 ```{r}
