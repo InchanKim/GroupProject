@@ -44,9 +44,6 @@ xxx %>% collect() %>%  right_join(yy, by = "graduationId") %>%
 
 xxx %>% collect() %>%  inner_join(yy, by = "graduationId") -> xxxx
 
-xxx %>% collect() %>%  inner_join(yy, by = "graduationId") %>% 
-  count(interns, salaryBracket)
-
 
 xxxx %>% inner_join(majors, by = "graduationId")
 
