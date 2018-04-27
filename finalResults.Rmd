@@ -24,18 +24,23 @@ source("StudentInternships.R")
 ```
 
 #Introduction to Analysis
-Our team conducted an anaylysis to determine how an LSU graduate's past internships affect their starting salary after graduation, if at all. 
+Our team conducted an anaylysis to determine how an LSU graduate's past internships affect their starting salary after graduation, if at all. We focused on LSU students graduating with a Bachelor's Degree, as their salaries should be vastly different from the salaries of Master's Degree and PhD students.
 
 Our original hypothesis inferred that students who had participated in an internship prior to graduation would be amongst those who have a higher starting salary.
 
 ###Steps for Process
 
-We first compared the starting salaries for those accepted full time against 3 different indicators:
-- if the graduate had a previous internship
-- the compensation (paid or unpaid) of the internship they had
-- if the graduate stayed with that company
+We first compared the starting salaries for those accepted to full time positions after graduation against 3 different indicators:
+
+* if the graduate had a previous internship
+* the compensation (paid or unpaid) of the internship they had
+* if the graduate stayed with that company
 
 Then, we broke down the salary performance statistics we found by LSU Majors against that of the national average from a national study conducted by the Wall Street Journal, "Majors That Pay Back".
+
+#Results
+
+###Number of Internships
 
 ```{r}
 graduation <- tbl(conStudent, 'graduation') %>% collect()
@@ -45,22 +50,21 @@ currPosition <- tbl(conStudent, 'currentPosition') %>% collect()
 fulltime <- tbl(conStudent, 'fulltime') %>% collect() 
 employment <- tbl(conStudent, 'employment') %>% collect()
 
-
 ```
 
-#Results
-###Number of Internships
-
-Of all of the LSU graduates from 2017, there was a total of `r sum(internGrad$interns)` completed internships, with some students completing as many as 4. (do max for this) 
+Of all of the LSU graduates from 2017, there was a total of `r #sum(internGrad$interns)` completed internships, with some students completing as many as 4. (do max for this) 
 
 [Inchan part for how many studnets completed # of internships]
 
-The total number of students who completed internships were `r percent(length(internGrad$interns)/length(graduation$graduationId))` of the graduating class.
+The total number of students who completed internships were `r #percent(length(internGrad$interns)/length(graduation$graduationId))` of the graduating class.
 
 [inchan put students who didn't]
-There were `r count(noInterns)` students who did not have internships, which is about 13 people without an internship for every 1 with an internship.
+There were `r #count(noInterns)` students who did not have internships, which is about 13 people without an internship for every 1 with an internship.
 
 ```{r}
+# Instead of copy pasting the code from the R script, you can source it
+# source("StudentInternships.R") should work
+# You can just call the objects that you want (e.g. graphs) where you need them
 right_join(internship, graduation, by = 'graduationId') %>%
   select(graduationId, internshipId) %>% mutate(interns = !is.na(internshipId)) %>%
   count(graduationId, interns) %>% mutate(interns = interns*n) %>% 
@@ -69,8 +73,8 @@ right_join(internship, graduation, by = 'graduationId') %>%
 right_join(internship, graduation, by = 'graduationId') %>%
   select(graduationId, internshipId) %>% mutate(interns = !is.na(internshipId)) %>% 
   count(interns) %>% collect() -> yyy
-yyy$interns <- factor(yyy$interns, levels = c("0","1"), labels = c("No", "Yes"))
-yyy
+yyy$interns <- factor(yyy$interns, levels = c(F,T), labels = c("No", "Yes"))
+knitr::kable(yyy)
 
 right_join(internship, graduation, by = 'graduationId') %>%
   select(graduationId, internshipId) %>% mutate(interns = !is.na(internshipId)) %>%
@@ -99,8 +103,6 @@ xxx %>% collect() %>%  inner_join(yy, by = "graduationId") %>% inner_join(majors
 ###Paid or Unpaid Internships
 ```{r}
 
-graduat <- tbl(conStudent,'graduation')
-graduat1 <- as_data_frame(graduat)
 graduat <- tbl(conStudent,'graduation')
 graduat1 <- as_data_frame(graduat)
 
@@ -206,12 +208,27 @@ Some majors have a wider range of salaries than others, so we have included box-
 
 #Conclusion
 
-
+\newpage
 #Salary Box-and-Whisker Plots
-
 ```{r}
-#source("boxPlotMaker.R")
+source("boxPlotMaker.R")
 ```
+
+Each figure shows the box-and-whisker plots of the majors of a particular college. The college of Coast & Environment is not pictured in this report because there was not enough data to generate a substantial box-and-whisker plot. Data with salary values above `r dollar(mx)` were removed because they are outliers that stretch the scale of the Y axis to the point of making the box-and-whisker plots hard to interpret. Data with salary values of less than `r dollar(mn)` were removed as well because the national minimum wage in the United States is $7.25 an hour--a full-time position paying minimum wage for the year pays more than `r dollar(mn)`, so all values below this were considered to be typos.
+
+A few changes had to be made regarding the majors in the dataset:
+
+* There were some majors listed as "NA" (not to be mistaken with `NA`), all under the College of Humanities and Social Sciences. These were renamed "Interdisciplinary Studies"
+* Some records had a major listed with the wrong college, so the college names were reassigned by major, according to these rules:  
+
+Major | College
+---------------|-----------------
+Biological Sciences | Science
+Spanish | Humanities and Social Sciences
+Mass Communication | Mass Communication
+Mathematics | Science
+Economics | Business  
+    
 
 
 ![College of Agriculture](plots/boxAgriculture.png)
