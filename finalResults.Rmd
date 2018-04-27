@@ -36,6 +36,7 @@ We first compared the starting salaries for those accepted full time against 3 d
 
 Then, we broke down the salary performance statistics we found by LSU Majors against that of the national average from a national study conducted by the Wall Street Journal, "Majors That Pay Back".
 
+\newpage
 #Results
 ###Number of Internships
 ```{r}
@@ -192,6 +193,8 @@ Based on data and graph above we can conclude that paid internship have highly p
 
 ###Internship Turnovers
 
+In the following analysis, we compared interns who took a full-time position with the same company versus those who took a full-time position at a new company. We filtered out any graduate who did not have a company listed for both their internship and full-time position.
+
 ```{r}
  
 major <- left_join(graduationTitle, title, by = "idTitle") %>% 
@@ -240,7 +243,6 @@ salCo %>% ggplot() +
   ylab("Count") + scale_fill_discrete(guide_legend(title = "Salary Bracket")) 
   #+ scale_color_continuous(low = "purple", high = "yellow")
 
-knitr::kable(salCo)
 ```
 
 In breaking down the Employment Company by Salary Brackets, we found that overall there were slightly less people in each salary bracket who stayed with the same company, ultimately with new companies offering more high income salaries with `r salCo[5,4]` offering high income salaries and `r salCo[3,4]` serving medium salaries.  
