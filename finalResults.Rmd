@@ -205,7 +205,7 @@ From this number there is a total of `r oo[1,2]` unpaid internships, and `r oo[2
 In this analysis we will find out about the correlation between paid and unpaid internship on the starting salaries.
 
 ```{r}
-kk <- paid %>% collect() %>% right_join(yy, by = "graduationId") %>%  filter(!is.na(internshipPaid)) %>% select(salaryBracket, internshipPaid) %>% count(salaryBracket, internshipPaid)%>% mutate(percentage = percent(round(n/2099, digits = 3)))
+kk <- paid %>% collect() %>% right_join(yy, by = "graduationId") %>%  filter(!is.na(internshipPaid)) %>% select(salaryBracket, internshipPaid) %>% count(salaryBracket, internshipPaid)%>% mutate(percentage = percent(round(n/1867, digits = 3)))
 
 paidbar <- paid %>% collect() %>% right_join(yy, by = "graduationId") %>%  filter(!is.na(internshipPaid)) %>% 
   ggplot() + 
