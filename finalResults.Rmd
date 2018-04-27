@@ -194,11 +194,19 @@ Based on data and graph above we can conclude that paid internship have highly p
 
 ```{r}
  
-major <- left_join(graduationTitle, title, by = "idTitle") %>% select(graduationId, majorName, titleCode)
+major <- left_join(graduationTitle, title, by = "idTitle") %>% 
+  select(graduationId, majorName, titleCode)
 
-internCurrent <- inner_join(internship, currPosition, by = c('graduationId')) %>% mutate(organizationId = as.numeric(organizationId.y)) %>% mutate(intOrganizationId = as.numeric(organizationId.x)) %>% select(internshipId, academicCredit, graduationId, intOrganizationId, organizationId, idCurrentPosition, positionType)
+internCurrent <- inner_join(internship, currPosition, by = c('graduationId')) %>%
+  mutate(organizationId = as.numeric(organizationId.y)) %>% 
+  mutate(intOrganizationId = as.numeric(organizationId.x)) %>% 
+  select(internshipId, academicCredit, graduationId, intOrganizationId, organizationId, idCurrentPosition, positionType)
 
-byMajor <- left_join(internCurrent, major, by = 'graduationId')%>% distinct(graduationId, .keep_all = TRUE) %>% mutate(nOrs = if_else(condition = intOrganizationId == organizationId, true = "Same Company", false = "New Company")) %>% select(graduationId, internshipId, intOrganizationId, organizationId, nOrs, positionType, majorName, titleCode, idCurrentPosition, academicCredit) %>% filter(!is.na(nOrs))
+byMajor <- left_join(internCurrent, major, by = 'graduationId')%>%
+  distinct(graduationId, .keep_all = TRUE) %>% 
+  mutate(nOrs = if_else(condition = intOrganizationId == organizationId, true = "Same Company", false = "New Company")) %>% 
+  select(graduationId, internshipId, intOrganizationId, organizationId, nOrs, positionType, majorName, titleCode, idCurrentPosition, academicCredit) %>%
+  filter(!is.na(nOrs))
 
 co <- ggplot(byMajor) +
   geom_bar(aes(x = nOrs), fill = 'purple') +
@@ -214,13 +222,16 @@ As seen in the graph above, `r byMajor %>% group_by(nOrs) %>% summarise(nnn = n(
 ```{r}
 stayed <- byMajor %>% filter(nOrs == 'Same Company') 
 newco <- byMajor %>% filter(nOrs == 'New Company')
-ftstay <- left_join(stayed, fulltime, by = "idCurrentPosition") %>% select(salary) %>% filter(salary > 1)
-ftnew <- left_join(newco, fulltime, by = "idCurrentPosition") %>% select(salary) %>% filter(salary > 6)
+ftstay <- left_join(stayed, fulltime, by = "idCurrentPosition") %>% 
+  select(salary) %>% filter(salary > 1)
+ftnew <- left_join(newco, fulltime, by = "idCurrentPosition") %>% 
+  select(salary) %>% filter(salary > 6)
 ftTotSalary <- fulltime %>% select(salary) %>% filter(salary > 6) 
 
 salCo <- left_join(byMajor, yy, by = 'graduationId') %>%
   filter(!is.na(salaryBracket)) %>% 
-  select(salaryBracket, nOrs) %>% count(salaryBracket, nOrs) %>% mutate(perc = percent(n/sum(n)))
+  select(salaryBracket, nOrs) %>% count(salaryBracket, nOrs) %>% 
+  mutate(perc = percent(n/sum(n)))
   
 salCo %>% ggplot() +
   geom_col(aes(x = nOrs, y = n, fill = salaryBracket), position = 'dodge') +
@@ -238,7 +249,7 @@ In addition to the graph above and with the removal of outliers - of the `r leng
 
 Employment Company | Total | Percent of Full Time | Salary Total | Salary Average
 -------------------| ------ |--------------- | --------------- | ---------------
-Same Company | `r length(stayed$organizationId)` | `r  percent(length(stayed$organizationId)/length(fulltime$idCurrentPosition))` | `r dollar(sum(ftstay))` | `r dollar(sum(ftstay))` | `r dollar(sum(ftstay)/length(ftstay$salary))`
+Same Company | `r length(stayed$organizationId)` | `r  percent(length(stayed$organizationId)/length(fulltime$idCurrentPosition))` | `r dollar(sum(ftstay))` | `r dollar(sum(ftstay)/length(ftstay$salary))`
 New Company | `r length(newco$organizationId)` |  `r  percent(length(newco$organizationId)/length(fulltime$idCurrentPosition))` | `r dollar(sum(ftnew))` | `r dollar(sum(ftnew)/length(ftnew$salary))`
 ###How LSU Graduates Stack Up
 To put everything in perspective, we wanted to compare the starting salaries of LSU graduates to that of the average college graduate in the US. To do this, we used a dataset from *The Wall Street Journal* (WSJ) that included the median starting salaries of college graduates by major: http://online.wsj.com/public/resources/documents/info-Degrees_that_Pay_you_Back-sort.html.  
