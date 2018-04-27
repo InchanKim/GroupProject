@@ -101,7 +101,6 @@ xxx %>% collect() %>%  inner_join(yy, by = "graduationId") %>% inner_join(majors
 
 graduat <- tbl(conStudent,'graduation')
 graduat1 <- as_data_frame(graduat)
-graduat1
 graduat <- tbl(conStudent,'graduation')
 graduat1 <- as_data_frame(graduat)
 
