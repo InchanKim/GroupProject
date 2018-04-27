@@ -163,7 +163,7 @@ rbind(xxxFor0, xxxFor1, xxxFor2, xxxFor3, xxxFor4) -> finalXxx
 #INCHAN narrative below
 ```
 
-This graph tells us that students with more internships recevied less low salary than students with no internship experience.
+This graph tells us that students with more internships have less low salary fraction than students with no internship experience.
 
 
 [Inchan Narrative]
