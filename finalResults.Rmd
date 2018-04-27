@@ -29,9 +29,10 @@ Our original hypothesis inferred that students who had participated in an intern
 ###Steps for Process
 
 We first compared the starting salaries for those accepted full time against 3 different indicators:
-- if the graduate had a previous internship
-- the compensation (paid or unpaid) of the internship they had
-- if the graduate stayed with that company
+
+* if the graduate had a previous internship
+* the compensation (paid or unpaid) of the internship they had
+* if the graduate stayed with that company
 
 Then, we broke down the salary performance statistics we found by LSU Majors against that of the national average from a national study conducted by the Wall Street Journal, "Majors That Pay Back".
 
