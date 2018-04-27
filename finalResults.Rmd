@@ -102,10 +102,10 @@ yyy %>%
   ggplot() +
   geom_col(aes(x = interns, y = n, fill = interns)) -> yGraph
 yGraph
-knitr::kable(yyy)
-
+kable(yyy)
 ```
-According to the graph above, there are `r yyy[2,2]` students who have done internships, and there are `r yyy[1,2]` students who did not have internships.
+
+According to the graph and table above, there are `r yyy[2,2]` students who have done internships, and there are `r yyy[1,2]` students who did not have internships.
 
 ```{r]}
 right_join(internship, graduation, by = 'graduationId') %>% 
@@ -115,7 +115,7 @@ right_join(internship, graduation, by = 'graduationId') %>%
 
 xxx %>% 
   ggplot() +
-  geom_bar(aes(x = interns, color = interns)) +
+  geom_bar(aes(x = interns, fill = 'interns')) +
   ggtitle( label = "Count of Internships") -> xGraph
 
 
@@ -126,7 +126,7 @@ right_join(internship, graduation, by = 'graduationId') %>%
 
 xxx1 %>% mutate(percentages = percent((n)/sum(n))) -> xxx1Percentage
 xGraph
-xxx1Percentage
+kable(xxx1Percentage)
 
 ```
 
@@ -156,7 +156,7 @@ xxx %>% collect() %>%  right_join(yy, by = "graduationId") %>% count(interns, sa
 xxx %>% collect() %>%  right_join(yy, by = "graduationId") %>% count(interns, salaryBracket) %>% filter(interns == 4) %>% mutate(percentage = percent((n)/sum(n))) -> xxxFor4
 
 rbind(xxxFor0, xxxFor1, xxxFor2, xxxFor3, xxxFor4) -> finalXxx
-finalXxx
+kable(finalXxx)
 
 ```
 
