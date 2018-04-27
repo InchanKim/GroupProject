@@ -3,12 +3,14 @@ library(stringr)
 library(tools)
 source('conn.R')
 
+mn <- 15000
+
 suppressWarnings(fullTime <- tbl(conStudent, 'fulltime'))
 currentPosition <- tbl(conStudent, 'currentPosition')
 graduation <- tbl(conStudent, 'graduation') %>% select(graduationId, degreeLevel)
 
 xx <- left_join(fullTime, currentPosition, by = 'idCurrentPosition') %>%
-  select(graduationId, idCurrentPosition, salary)
+  select(graduationId, idCurrentPosition, salary) %>% filter(salary > mn)
 xx <- left_join(xx, graduation, by = 'graduationId') %>% filter(degreeLevel == 'Bachelor')
 suppressWarnings(yy <- collect(xx))
 

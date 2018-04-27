@@ -22,9 +22,7 @@ source("StudentInternships.R")
 ```
 
 #Introduction to Analysis
-Our team conducted an anaylysis to determine how recent LSU Bachelor's degree graduate's past internships affect their starting salary after graduation, if at all. 
-
-[Salaries were broken into 3 quantiles: low, medium, and high....]
+Our team conducted an anaylysis to determine how recent LSU Bachelor's degree graduate's past internships affect their starting salary after graduation, if at all. To do this, we created a discrete variable, `salaryBracket`, that divided graduates into three categories: low salary, medium salary, and high salary. The limits for each bracket were calculated using boxplot statistics--anything within the "box" (between the first and third quartile) is considered a "medium" salary, while anything outside of the "box" is labeled "high" or "low". The brackets were calculated using data on all LSU Bachelor's Degree graduates as an aggregate, not by major. Data with salary values of less than `r dollar(mn)` were removed because the national minimum wage in the United States is $7.25 an hour--a full-time position paying minimum wage for the year pays more than `r dollar(mn)`, so all values below this were considered to be typos. Records with a salary under The minimum and maximum for the "medium" salary bracket are `r dollar(quantiles['Q1'])` and `r dollar(quantiles['Q3'])`, respectively.
 
 Our original hypothesis inferred that students who had participated in an internship prior to graduation would be amongst those who have a higher starting salary.
 

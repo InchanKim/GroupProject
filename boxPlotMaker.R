@@ -1,7 +1,6 @@
 source("salaryBrackets.R")
 
 mx <- 150000
-mn <- 15000
 
 college <- tbl(conStudent, "college")
 graduate <- tbl(conStudent, 'graduation')
