@@ -39,7 +39,8 @@ xxx %>% filter(interns == 4) %>% nrow() #There are 33 students who have done int
 
 xxx %>% collect() %>%  right_join(yy, by = "graduationId") %>% 
   ggplot() +
-  geom_bar(aes(x = interns, fill = salaryBracket), position = "dodge")
+  geom_bar(aes(x = interns, fill = salaryBracket), position = "dodge") +
+  ggtitle(label = "Internships")
 
 
 xxx %>% collect() %>%  inner_join(yy, by = "graduationId") -> xxxx
