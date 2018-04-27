@@ -124,7 +124,7 @@ right_join(internship, graduation, by = 'graduationId') %>%
 
 xxx1 %>% mutate(percentages = percent((n)/sum(n))) -> xxx1Percentage
 xGraph
-xxx1Percentage[1,2]
+xxx1Percentage
 
 ```
 
