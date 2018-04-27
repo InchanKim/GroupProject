@@ -275,7 +275,7 @@ In addition to the graph above and with the removal of outliers - of the `r leng
 
 Employment Company | Total | Percent of Full Time | Salary Total | Salary Average
 -------------------| ------ |--------------- | --------------- | ---------------
-Same Company | `r length(stayed$organizationId)` | `r  percent(length(stayed$organizationId)/length(fulltime$idCurrentPosition))` | `r dollar(sum(ftstay))` | `r dollar(sum(ftstay))` | `r dollar(sum(ftstay)/length(ftstay$salary))`
+Same Company | `r length(stayed$organizationId)` | `r  percent(length(stayed$organizationId)/length(fulltime$idCurrentPosition))` | `r dollar(sum(ftstay))` | `r dollar(sum(ftstay)/length(ftstay$salary))`
 New Company | `r length(newco$organizationId)` |  `r  percent(length(newco$organizationId)/length(fulltime$idCurrentPosition))` | `r dollar(sum(ftnew))` | `r dollar(sum(ftnew)/length(ftnew$salary))`
 
 \newpage
