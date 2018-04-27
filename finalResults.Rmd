@@ -83,12 +83,12 @@ Internship Number | College | Total Internships
 
 The total number of students who completed internships were `r percent(length(internGrad$interns)/length(graduation$graduationId))` of the graduating class.
 
-There were `r  ` students who did not have internships.
+There were `r count(noInterns)` students who did not have internships.
 
 ```{r}
 #INCHAN ^^ Put students who didn't have internships
 
-right_join(internship, graduation, by = 'graduationId') %>%
+right_join(internship, graduation, by = 'graduationId') %>% 
   select(graduationId, internshipId) %>% mutate(interns = !is.na(internshipId)) %>%
   count(graduationId, interns) %>% mutate(interns = interns*n) %>% 
   select(graduationId, interns) %>% collect() -> xxx
@@ -98,21 +98,24 @@ right_join(internship, graduation, by = 'graduationId') %>%
   count(interns) %>% collect() -> yyy
 yyy$interns <- factor(yyy$interns, levels = c(F,T), labels = c("No", "Yes"))
 knitr::kable(yyy)
+```
+There were `r count(noInterns)` students who did not have internships.
 
+```{r}
 right_join(internship, graduation, by = 'graduationId') %>%
   select(graduationId, internshipId) %>% mutate(interns = !is.na(internshipId)) %>%
   select(graduationId, interns) %>% filter(interns != T) -> noInterns
 
 yyy %>% 
   ggplot() +
-  geom_col(aes(x = interns, y = n)) -> yGraph
+  geom_col(aes(x = interns, y = n, fill = interns)) -> yGraph
 yGraph
 
 #INCHAN ^^ double check that this is working - it didn't work for me - peyton
 
 xxx %>% 
   ggplot() +
-  geom_bar(aes(interns)) -> xGraph
+  geom_bar(aes(interns, fill = interns)) -> xGraph
 xGraph
 
 xxx %>% collect() %>%  right_join(yy, by = "graduationId") %>% 
@@ -122,8 +125,6 @@ xxx %>% collect() %>%  right_join(yy, by = "graduationId") %>%
   ylab("Count") +
   xlab("Internship Number") +
   guides(fill = guide_legend(title = "Salary Bracket"))
-
-xy <- xxx %>% collect() %>%  inner_join(yy, by = "graduationId") %>% inner_join(majors, by = "graduationId")
 
 #INCHAN narrative below
 ```
@@ -188,7 +189,7 @@ paidbar <- paid %>% collect() %>% right_join(yy, by = "graduationId") %>%  filte
 paidbar
 ```
 
-Based on data and graph above we can conclude that paid internship have highly positive correlation on starting salary with the highest percentage of `r kk[6,4]` for high starting salary, and second highest of `r kk[4,4]` for medium starting salary, together making up more than half of those having an internship. 
+Based on data and graph above we can conclude that paid internship have highly positive correlation on starting salary with the highest percentage of `r kk[4,4]` for medium starting salary, and second highest of `r kk[6,4]` for high starting salary, together making up more than half of those having an internship. 
 
 ###Internship Turnovers
 
