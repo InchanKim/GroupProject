@@ -29,9 +29,10 @@ Our original hypothesis inferred that students who had participated in an intern
 ###Steps for Process
 
 We first compared the starting salaries for those accepted full time against 3 different indicators:
-- if the graduate had a previous internship
-- the compensation (paid or unpaid) of the internship they had
-- if the graduate stayed with that company
+
+* if the graduate had a previous internship
+* the compensation (paid or unpaid) of the internship they had
+* if the graduate stayed with that company
 
 Then, we broke down the salary performance statistics we found by LSU Majors against that of the national average from a national study conducted by the Wall Street Journal, "Majors That Pay Back".
 
@@ -73,7 +74,6 @@ The College of Engineering has the most internships with a total of `r internGra
 
 Engineering's internships make up `r percent(internGrad %>% group_by(idCollege) %>% summarise(nc = n()) %>% distinct(max(nc)) %>% as.integer / internGrad %>% group_by(idCollege) %>% summarise(nc = n()) %>% distinct(sum(nc)) %>% as.integer())` of the total internships completed.
 
-###Highest Number of Internships
 Internship Number | College | Total Internships
 ----------------- | ----- | ------
 1 | Business | `r internGrad %>% group_by(idCollege, interns) %>% summarise(nc = n()) %>% ungroup(idCollege) %>%  filter(interns == '1') %>% distinct(max(nc))`
