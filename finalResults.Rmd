@@ -145,9 +145,9 @@ kk <- paid %>% collect() %>% right_join(yy, by = "graduationId") %>%  filter(!is
 
 From the dataset we found out that `r sum(kk$n)` get a job right after graduation. The distribution based on the salary bracket is :
 
-* `r kk[1,3]` graduates with unpaid internships, and `r kk[2,3]` graduates with paid internships got high starting salaries.
-* `r kk[5,3]` graduates with unpaid internship, and `r kk[6,3]` graduates with paid internship got medium starting salaries.
-* `r kk[3,3]` graduates with unpaid internship, and `r kk[4,3]` graduates with paid internship got low starting salaries.
+* `r kk[1,3]` graduates with unpaid internships, and `r kk[2,3]` graduates with paid internships got low starting salaries.
+* `r kk[3,3]` graduates with unpaid internship, and `r kk[4,3]` graduates with paid internship got medium starting salaries.
+* `r kk[5,3]` graduates with unpaid internship, and `r kk[6,3]` graduates with paid internship got high starting salaries.
 
 ```{r}
 paidbar <- paid %>% collect() %>% right_join(yy, by = "graduationId") %>%  filter(!is.na(internshipPaid)) %>% 
