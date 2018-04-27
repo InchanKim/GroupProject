@@ -129,7 +129,8 @@ kable(xxx1Percentage)
 
 ```
 
-The graph and table above represents following informations:
+The graph and table above represents following informations :
+
 * There are `r xxx1Percentage[1,2]` students, which is `r xxx1Percentage[1,3]` of total students, have done `r xxx1Percentage[1,1]` internship.
 * There are `r xxx1Percentage[2,2]` students, which is `r xxx1Percentage[2,3]` of total students, have done `r xxx1Percentage[2,1]` internship.
 * There are `r xxx1Percentage[3,2]` students, which is `r xxx1Percentage[3,3]` of total students, have done `r xxx1Percentage[3,1]` internship.
@@ -318,7 +319,6 @@ As you can see, there are `r length(unique(higher$majorName))` LSU majors that p
 
 Some majors have a wider range of salaries than others, so we have included box-and-whisker plots at the end of this report for each major.
 
-#Conclusion
 
 \newpage
 #Salary Box-and-Whisker Plots
