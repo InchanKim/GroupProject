@@ -2,7 +2,7 @@ library(tidyverse)
 source("conn.R")
 
 internship <- tbl(conStudent, 'internship')
-graduation <- tbl(conStudent, 'graduation') %>% filter(degreeLevel != 'Bachelor')
+graduation <- tbl(conStudent, 'graduation')
 
 
 right_join(internship, graduation, by = 'graduationId') %>%
