@@ -363,6 +363,6 @@ Economics | Business
 
 
 
-/new page 
+\newpage 
 #Work Cited
 PayScale Inc, & Wall Street Journal. (n.d.). Salary Increase by Major. Retrieved April 20, 2018, from http://online.wsj.com/public/resources/documents/info-Degrees_that_Pay_you_Back-sort.html
