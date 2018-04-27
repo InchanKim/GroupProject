@@ -40,7 +40,7 @@ xxx %>% filter(interns == 2) %>% nrow() #There are 1165 students who have done 2
 xxx %>% filter(interns == 3) %>% nrow() #There are 1254 students who have done 3 internships.
 xxx %>% filter(interns == 4) %>% nrow() #There are 33 students who have done 4 internships.
 
-
+yy$salaryBracket <- factor(yy$salaryBracket, levels = c("low", "medium", "high"))
 xxx %>% collect() %>%  right_join(yy, by = "graduationId") %>% 
   ggplot() +
   geom_bar(aes(x = interns, fill = salaryBracket), position = "dodge") +

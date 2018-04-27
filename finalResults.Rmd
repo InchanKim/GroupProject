@@ -79,12 +79,12 @@ right_join(internship, graduation, by = 'graduationId') %>%
 yyy %>% 
   ggplot() +
   geom_col(aes(x = interns, y = n)) -> yGraph
-
+yGraph
 
 xxx %>% 
   ggplot() +
   geom_bar(aes(interns)) -> xGraph
-
+xGraph
 
 xxx %>% collect() %>%  right_join(yy, by = "graduationId") %>% 
   ggplot() +
