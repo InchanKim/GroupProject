@@ -146,7 +146,7 @@ xxx %>% collect() %>%  right_join(yy, by = "graduationId") %>%
   xlab("Internship Number") +
   guides(fill = guide_legend(title = "Salary Bracket"))
 
-knitr::kable(xxx2)
+
 
 
 xxx %>% collect() %>%  right_join(yy, by = "graduationId") %>% count(interns, salaryBracket) %>% filter(interns == 0) %>% mutate(percentage = percent((n)/sum(n))) -> xxxFor0
@@ -155,9 +155,13 @@ xxx %>% collect() %>%  right_join(yy, by = "graduationId") %>% count(interns, sa
 xxx %>% collect() %>%  right_join(yy, by = "graduationId") %>% count(interns, salaryBracket) %>% filter(interns == 3) %>% mutate(percentage = percent((n)/sum(n))) -> xxxFor3
 xxx %>% collect() %>%  right_join(yy, by = "graduationId") %>% count(interns, salaryBracket) %>% filter(interns == 4) %>% mutate(percentage = percent((n)/sum(n))) -> xxxFor4
 
+rbind(xxxFor0, xxxFor1, xxxFor2, xxxFor3, xxxFor4) -> finalXxx
+
+
 #INCHAN narrative below
 ```
 
+This graph tells us that students with more internships recevied less low salary than students with no internship experience.
 
 
 [Inchan Narrative]
