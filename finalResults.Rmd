@@ -39,7 +39,6 @@ We first compared the starting salaries for those accepted full time against 3 d
 Then, we broke down the salary performance statistics we found by LSU Majors against that of the national average from a national study conducted by the Wall Street Journal, "Increase Salary by Major".
 
 \newpage
-#Results
 ###Number of Internships
 ```{r}
 graduation <- tbl(conStudent, 'graduation') %>% filter(degreeLevel == 'Bachelor') %>% collect()
@@ -187,11 +186,6 @@ internshipP <- paid %>% collect()
 tn <- oo %>% filter(internshipPaid== "no")
 ty <- oo %>% filter(internshipPaid== "yes")
 ```
-As noted, `r length(unique(intern1$graduationId))` graduates had internships while completing their degree.  
-
-From this number there is a total of `r oo[1,2]` unpaid internships, and `r oo[2,2]` paid internships taken by students.  
-
-In this analysis we will find out about the correlation between paid and unpaid internship on the starting salaries.  
 
 ```{r}
 paidcol <- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduation')) %>% select(graduationId,jobTitle,internshipPaid)%>% count(internshipPaid) %>% 
@@ -202,6 +196,12 @@ paidcol <- tbl(conStudent,'internship') %>% inner_join(tbl(conStudent,'graduatio
 paidcol
 
 ```
+
+As noted, `r length(unique(intern1$graduationId))` graduates had internships while completing their degree.  
+
+From this number there is a total of `r oo[1,2]` unpaid internships, and `r oo[2,2]` paid internships taken by students.  
+
+In this analysis we will find out about the correlation between paid and unpaid internship on the starting salaries.
 
 ```{r}
 kk <- paid %>% collect() %>% right_join(yy, by = "graduationId") %>%  filter(!is.na(internshipPaid)) %>% select(salaryBracket, internshipPaid) %>% count(salaryBracket, internshipPaid)%>% mutate(percentage = percent(round(n/2099, digits = 3)))
